@@ -1,58 +1,285 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>KaushalSetu AI</title>
+
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
 </head>
 
 <body>
 
-    <h1>KaushalSetu AI</h1>
+    <div class="app">
 
-    <h2>Welcome, {{ employee.user.first_name }} {{ employee.user.last_name }}</h2>
+        <!-- Sidebar -->
+        <aside class="sidebar">
 
-    <p>
-        <strong>Role:</strong> {{ employee.role }}
-    </p>
+            <div class="logo">
+                <div class="logo-icon">K</div>
 
-    <p>
-        <strong>Department:</strong> {{ employee.department }}
-    </p>
+                <div>
+                    <h2>KaushalSetu</h2>
+                    <span>AI Learning Platform</span>
+                </div>
+            </div>
 
-    <hr>
+            <nav>
 
-    <h2>Your Competency Gaps</h2>
+                <a href="#" class="nav-item active">
+                    <span>▣</span>
+                    Dashboard
+                </a>
 
-    {% for gap in gaps %}
+                <a href="#" class="nav-item">
+                    <span>◈</span>
+                    Skill Gaps
+                </a>
 
-        <div>
-            <h3>{{ gap.competency }}</h3>
+                <a href="#" class="nav-item">
+                    <span>▤</span>
+                    Learning
+                </a>
 
-            <p>
-                Current Level:
-                {{ gap.current_level }}
-            </p>
+                <a href="#" class="nav-item">
+                    <span>✓</span>
+                    Assessments
+                </a>
 
-            <p>
-                Required Level:
-                {{ gap.required_level }}
-            </p>
+                <a href="#" class="nav-item">
+                    <span>?</span>
+                    AI Quizzes
+                </a>
 
-            <p>
-                Gap:
-                {{ gap.gap }}
-            </p>
+                <a href="#" class="nav-item">
+                    <span>↑</span>
+                    Learning Materials
+                </a>
 
-            <p>
-                Priority:
-                {{ gap.priority }}
-            </p>
-        </div>
+            </nav>
 
-        <hr>
+            <div class="sidebar-footer">
+                <p>SIH26101</p>
+                <span>Official Statistics</span>
+            </div>
 
-    {% endfor %}
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main">
+
+            <!-- Top bar -->
+            <header class="topbar">
+
+                <div>
+                    <p class="breadcrumb">Dashboard</p>
+                </div>
+
+                <div class="profile">
+                    <div class="avatar">
+                        {{ employee.user.first_name|first }}
+                    </div>
+
+                    <div>
+                        <strong>
+                            {{ employee.user.first_name }}
+                            {{ employee.user.last_name }}
+                        </strong>
+
+                        <small>{{ employee.role }}</small>
+                    </div>
+                </div>
+
+            </header>
+
+
+            <!-- Dashboard -->
+            <section class="dashboard">
+
+                <div class="welcome">
+
+                    <div>
+                        <p class="eyebrow">PERSONALIZED LEARNING</p>
+
+                        <h1>
+                            Welcome back,
+                            {{ employee.user.first_name }} 👋
+                        </h1>
+
+                        <p>
+                            Here's your current competency profile
+                            and recommended learning priorities.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- Statistics Cards -->
+                <div class="stats">
+
+                    <div class="stat-card">
+                        <span class="stat-label">
+                            Total Competencies
+                        </span>
+
+                        <strong>{{ gaps|length }}</strong>
+
+                        <span class="stat-description">
+                            Skills assessed
+                        </span>
+                    </div>
+
+
+                    <div class="stat-card high-card">
+                        <span class="stat-label">
+                            High Priority Gaps
+                        </span>
+
+                        <strong>
+                            {% for gap in gaps %}
+                                {% if gap.priority == "High" %}
+                                    {% if forloop.first %}1{% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </strong>
+
+                        <span class="stat-description">
+                            Require immediate focus
+                        </span>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <span class="stat-label">
+                            Learning Status
+                        </span>
+
+                        <strong>0%</strong>
+
+                        <span class="stat-description">
+                            Start your learning journey
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <!-- Competency Section -->
+                <div class="section-header">
+
+                    <div>
+                        <h2>Competency Gaps</h2>
+
+                        <p>
+                            Skills requiring development based on
+                            your role requirements.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="competency-list">
+
+                    {% for gap in gaps %}
+
+                    <div class="competency-card">
+
+                        <div class="competency-info">
+
+                            <div class="skill-icon">
+                                {{ gap.competency|first }}
+                            </div>
+
+                            <div>
+                                <h3>{{ gap.competency }}</h3>
+
+                                <p>
+                                    Current level
+                                    <strong>
+                                        {{ gap.current_level }}
+                                    </strong>
+
+                                    /
+                                    {{ gap.required_level }}
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-area">
+
+                            <div class="progress-bar">
+
+                                <div
+                                    class="progress"
+                                    style="width:
+                                    {% widthratio gap.current_level gap.required_level 100 %}%;">
+                                </div>
+
+                            </div>
+
+                            <span>
+                                {{ gap.current_level }}/{{ gap.required_level }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="gap-value">
+                            Gap: {{ gap.gap }}
+                        </div>
+
+
+                        <div class="priority {{ gap.priority|lower }}">
+                            {{ gap.priority }}
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- Recommendation Preview -->
+                <div class="recommendation">
+
+                    <div class="recommendation-icon">
+                        ✦
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            AI-POWERED RECOMMENDATION
+                        </span>
+
+                        <h2>
+                            Your learning path is being personalized
+                        </h2>
+
+                        <p>
+                            KaushalSetu will recommend learning resources
+                            based on your competency gaps and role requirements.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
 
 </body>
 </html>
