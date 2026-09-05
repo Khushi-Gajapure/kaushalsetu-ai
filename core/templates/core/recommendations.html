@@ -1,0 +1,288 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Learning Recommendations | KaushalSetu AI</title>
+
+    <link rel="stylesheet"
+          href="{% static 'core/style.css' %}">
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                K
+            </div>
+
+            <div>
+                <h2>KaushalSetu</h2>
+                <span>AI Learning Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="/" class="nav-item">
+                <span>▣</span>
+                Dashboard
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>◈</span>
+                Skill Gaps
+            </a>
+
+            <a href="#" class="nav-item active">
+                <span>▤</span>
+                Learning
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>✓</span>
+                Assessments
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>?</span>
+                AI Quizzes
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>↑</span>
+                Learning Materials
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <p>SIH26101</p>
+
+            <span>
+                Official Statistics
+            </span>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+
+                <p class="breadcrumb">
+                    Learning Recommendations
+                </p>
+
+            </div>
+
+
+            <div class="profile">
+
+                <div class="avatar">
+                    {{ employee.user.first_name|first }}
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ employee.user.first_name }}
+                        {{ employee.user.last_name }}
+                    </strong>
+
+                    <small>
+                        {{ employee.role }}
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="dashboard">
+
+
+            <!-- Page heading -->
+
+            <div class="welcome">
+
+                <p class="eyebrow">
+                    PERSONALIZED LEARNING
+                </p>
+
+                <h1>
+                    Recommended for You
+                </h1>
+
+                <p>
+                    Learning resources selected based on
+                    your competency gaps and role requirements.
+                </p>
+
+            </div>
+
+
+            <!-- Recommendations -->
+
+            <div class="competency-list">
+
+                {% for recommendation in recommendations %}
+
+                <div class="competency-card">
+
+
+                    <div class="competency-info">
+
+                        <div class="skill-icon">
+                            {{ recommendation.competency.name|first }}
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                {{ recommendation.course.title }}
+                            </h3>
+
+                            <p>
+                                For:
+                                <strong>
+                                    {{ recommendation.competency.name }}
+                                </strong>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div>
+
+                        <p class="stat-label">
+                            Course level
+                        </p>
+
+                        <strong>
+                            {{ recommendation.course.level }}
+                        </strong>
+
+                        <p class="stat-description">
+                            {{ recommendation.course.duration_hours }}
+                            hours
+                        </p>
+
+                    </div>
+
+
+                    <div class="gap-value">
+
+                        <span class="stat-label">
+                            Source
+                        </span>
+
+                        <p>
+                            {{ recommendation.course.source }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="priority {{ recommendation.priority|lower }}">
+
+                        {{ recommendation.priority }}
+
+                    </div>
+
+
+                    <div>
+
+                        <p>
+                            {{ recommendation.reason }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="stat-card">
+
+                    <h2>
+                        No recommendations yet
+                    </h2>
+
+                    <p>
+                        Complete an assessment to receive
+                        personalized learning recommendations.
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- iGOT section -->
+
+            <div class="recommendation">
+
+                <div class="recommendation-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <span class="eyebrow">
+                        iGOT KARMAYOGI
+                    </span>
+
+                    <h2>
+                        Government learning ecosystem
+                    </h2>
+
+                    <p>
+                        KaushalSetu can connect competency gaps
+                        with relevant training resources from
+                        the iGOT Karmayogi ecosystem.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

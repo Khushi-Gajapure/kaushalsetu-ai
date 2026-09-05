@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
-from .models import Employee
+from .models import Employee, LearningRecommendation
 from .services.skill_gap import calculate_skill_gaps
 
 
@@ -36,5 +36,27 @@ def dashboard(request):
             "high_count": high_count,
             "medium_count": medium_count,
             "low_count": low_count,
+        },
+    )
+def recommendations(request):
+    employee = get_object_or_404(
+        Employee,
+        user__username="rahul"
+    )
+
+    recommendations = LearningRecommendation.objects.filter(
+        employee=employee,
+        completed=False
+    ).select_related(
+        "course",
+        "competency"
+    )
+
+    return render(
+        request,
+        "core/recommendations.html",
+        {
+            "employee": employee,
+            "recommendations": recommendations,
         },
     )
