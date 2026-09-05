@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz Result | KaushalSetu AI</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .result-card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="result-card">
+
+        <h1>Quiz Completed 🎉</h1>
+
+        <p>{{ quiz.title }}</p>
+
+        <div class="score">
+            {{ score }} / {{ total }}
+        </div>
+
+        <p>
+            You answered
+            <strong>{{ score }}</strong>
+            out of
+            <strong>{{ total }}</strong>
+            questions correctly.
+        </p>
+
+        <a href="{% url 'take_quiz' quiz.id %}">
+            Retake Quiz
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

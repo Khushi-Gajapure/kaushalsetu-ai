@@ -1,0 +1,254 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Learning Material | KaushalSetu AI</title>
+
+    <link rel="stylesheet"
+          href="{% static 'core/style.css' %}">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">K</div>
+
+            <div>
+                <h2>KaushalSetu</h2>
+                <span>AI Learning Platform</span>
+            </div>
+        </div>
+
+        <nav>
+
+            <a href="/" class="nav-item">
+                <span>▣</span>
+                Dashboard
+            </a>
+
+            <a href="/recommendations/" class="nav-item">
+                <span>◈</span>
+                Learning
+            </a>
+
+            <a href="/upload-material/" class="nav-item active">
+                <span>↑</span>
+                Learning Materials
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>✓</span>
+                Assessments
+            </a>
+
+            <a href="#" class="nav-item">
+                <span>?</span>
+                AI Quizzes
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <p>SIH26101</p>
+            <span>Official Statistics</span>
+        </div>
+
+    </aside>
+
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <p class="breadcrumb">
+                Learning Materials
+            </p>
+
+            <div class="profile">
+
+                <div class="avatar">
+                    {{ employee.user.first_name|first }}
+                </div>
+
+                <div>
+                    <strong>
+                        {{ employee.user.first_name }}
+                        {{ employee.user.last_name }}
+                    </strong>
+
+                    <small>
+                        {{ employee.role }}
+                    </small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="dashboard">
+
+            <div class="welcome">
+
+                <p class="eyebrow">
+                    AI LEARNING MATERIALS
+                </p>
+
+                <h1>
+                    Upload Learning Material
+                </h1>
+
+                <p>
+                    Upload study material that can later be
+                    used to generate personalized quizzes.
+                </p>
+
+            </div>
+
+
+            {% if success %}
+
+            <div class="recommendation">
+
+                <div class="recommendation-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <span class="eyebrow">
+                        UPLOAD SUCCESSFUL
+                    </span>
+
+                    <h2>
+                        Learning material uploaded
+                    </h2>
+
+                    <p>
+                        Your material has been stored successfully.
+                    </p>
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <div class="stat-card">
+
+                <form method="POST"
+                      enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <div style="margin-bottom: 20px;">
+
+                        <label>
+                            <strong>Material Title</strong>
+                        </label>
+
+                        <input
+                            type="text"
+                            name="title"
+                            placeholder="e.g. Statistical Sampling Notes"
+                            required
+                            style="
+                                display:block;
+                                width:100%;
+                                margin-top:8px;
+                                padding:12px;
+                                border:1px solid #d1d5db;
+                                border-radius:8px;
+                            "
+                        >
+
+                    </div>
+
+
+                    <div style="margin-bottom: 20px;">
+
+                        <label>
+                            <strong>Select File</strong>
+                        </label>
+
+                        <input
+                            type="file"
+                            name="file"
+                            required
+                            style="
+                                display:block;
+                                width:100%;
+                                margin-top:8px;
+                                padding:12px;
+                                border:1px solid #d1d5db;
+                                border-radius:8px;
+                            "
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        style="
+                            background:#2563eb;
+                            color:white;
+                            border:none;
+                            padding:12px 20px;
+                            border-radius:8px;
+                            cursor:pointer;
+                            font-weight:bold;
+                        "
+                    >
+                        Upload Material
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <div class="recommendation">
+
+                <div class="recommendation-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <span class="eyebrow">
+                        WHAT HAPPENS NEXT
+                    </span>
+
+                    <h2>
+                        AI Quiz Generation
+                    </h2>
+
+                    <p>
+                        After uploading learning material,
+                        KaushalSetu will extract its content
+                        and use it to generate competency-based
+                        quiz questions.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

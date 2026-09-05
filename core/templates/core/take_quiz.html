@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ quiz.title }} | KaushalSetu AI</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .question-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .option {
+            display: block;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background: #f1f5f9;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>{{ quiz.title }}</h1>
+
+        <p>
+            Answer all questions and submit your quiz.
+        </p>
+
+        <p>
+            <strong>{{ questions|length }}</strong> questions
+        </p>
+
+    </div>
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% for question in questions %}
+
+        <div class="question-card">
+
+            <p class="question-number">
+                Question {{ forloop.counter }}
+            </p>
+
+            <h2>
+                {{ question.question }}
+            </h2>
+
+
+            <label class="option">
+                <input
+                    type="radio"
+                    name="question_{{ question.id }}"
+                    value="A"
+                    required
+                >
+                {{ question.option_a }}
+            </label>
+
+
+            <label class="option">
+                <input
+                    type="radio"
+                    name="question_{{ question.id }}"
+                    value="B"
+                >
+                {{ question.option_b }}
+            </label>
+
+
+            <label class="option">
+                <input
+                    type="radio"
+                    name="question_{{ question.id }}"
+                    value="C"
+                >
+                {{ question.option_c }}
+            </label>
+
+
+            <label class="option">
+                <input
+                    type="radio"
+                    name="question_{{ question.id }}"
+                    value="D"
+                >
+                {{ question.option_d }}
+            </label>
+
+        </div>
+
+        {% endfor %}
+
+
+        <button type="submit">
+            Submit Quiz
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
