@@ -4,15 +4,12 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Learning Recommendations | KaushalSetu AI</title>
+    <title>Learning Recommendations - KaushalSetu AI</title>
 
-    <link rel="stylesheet"
-          href="{% static 'core/style.css' %}">
-
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
 </head>
 
 <body>
@@ -20,7 +17,6 @@
 <div class="app">
 
     <!-- Sidebar -->
-
     <aside class="sidebar">
 
         <div class="logo">
@@ -44,12 +40,12 @@
                 Dashboard
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="/" class="nav-item">
                 <span>◈</span>
                 Skill Gaps
             </a>
 
-            <a href="#" class="nav-item active">
+            <a href="/recommendations/" class="nav-item active">
                 <span>▤</span>
                 Learning
             </a>
@@ -64,7 +60,7 @@
                 AI Quizzes
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="/upload-material/" class="nav-item">
                 <span>↑</span>
                 Learning Materials
             </a>
@@ -85,10 +81,11 @@
     </aside>
 
 
-    <!-- Main -->
-
+    <!-- Main Content -->
     <main class="main">
 
+
+        <!-- Topbar -->
         <header class="topbar">
 
             <div>
@@ -124,155 +121,187 @@
         </header>
 
 
+        <!-- Learning Dashboard -->
         <section class="dashboard">
 
 
-            <!-- Page heading -->
-
+            <!-- Welcome -->
             <div class="welcome">
 
-                <p class="eyebrow">
-                    PERSONALIZED LEARNING
-                </p>
+                <div>
 
-                <h1>
-                    Recommended for You
-                </h1>
+                    <p class="eyebrow">
+                        AI-POWERED LEARNING
+                    </p>
 
-                <p>
-                    Learning resources selected based on
-                    your competency gaps and role requirements.
-                </p>
+                    <h1>
+                        Your Learning Recommendations
+                    </h1>
+
+                    <p>
+                        Personalized courses based on your competency
+                        gaps and role requirements.
+                    </p>
+
+                </div>
 
             </div>
 
 
-            <!-- Recommendations -->
+            <!-- Recommendation Section -->
+            <div class="section-header">
 
-            <div class="competency-list">
+                <div>
 
-                {% for recommendation in recommendations %}
+                    <h2>
+                        Recommended Courses
+                    </h2>
 
-                <div class="competency-card">
+                    <p>
+                        Complete these courses to improve your competency profile.
+                    </p>
+
+                </div>
+
+            </div>
 
 
-                    <div class="competency-info">
+            <!-- Recommendation List -->
+            <div class="recommendation-list">
 
-                        <div class="skill-icon">
-                            {{ recommendation.competency.name|first }}
-                        </div>
+                {% if recommendations %}
 
-                        <div>
+                    {% for recommendation in recommendations %}
 
-                            <h3>
+                    <div class="recommendation-card">
+
+
+                        <!-- Course Information -->
+                        <div class="recommendation-content">
+
+                            {% if recommendation.competency %}
+
+                                <span class="eyebrow">
+                                    {{ recommendation.competency.name }}
+                                </span>
+
+                            {% endif %}
+
+
+                            <h2>
                                 {{ recommendation.course.title }}
-                            </h3>
+                            </h2>
+
+
+                            {% if recommendation.course.description %}
+
+                                <p>
+                                    {{ recommendation.course.description }}
+                                </p>
+
+                            {% endif %}
+
+
+                            {% if recommendation.reason %}
+
+                                <p>
+                                    <strong>
+                                        Why this course?
+                                    </strong>
+
+                                    {{ recommendation.reason }}
+                                </p>
+
+                            {% endif %}
+
 
                             <p>
-                                For:
                                 <strong>
-                                    {{ recommendation.competency.name }}
+                                    Level:
                                 </strong>
+
+                                {{ recommendation.course.level }}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Duration:
+                                </strong>
+
+                                {{ recommendation.course.duration_hours }}
+                                hours
+                            </p>
+
+                        </div>
+
+
+                        <!-- Priority + Completion -->
+                        <div class="recommendation-priority">
+
+
+                            <div class="priority {{ recommendation.priority|lower }}">
+                                {{ recommendation.priority }}
+                            </div>
+
+
+                            {% if recommendation.completed %}
+
+                                <div class="completed-label">
+                                    ✓ Completed
+                                </div>
+
+                            {% else %}
+
+                                <form method="POST">
+
+                                    {% csrf_token %}
+
+                                    <input
+                                        type="hidden"
+                                        name="recommendation_id"
+                                        value="{{ recommendation.id }}"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="complete-button"
+                                    >
+                                        Mark as Completed
+                                    </button>
+
+                                </form>
+
+                            {% endif %}
+
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+
+                {% else %}
+
+                    <div class="recommendation-card">
+
+                        <div class="recommendation-content">
+
+                            <h2>
+                                No learning recommendations yet
+                            </h2>
+
+                            <p>
+                                Complete an assessment to generate
+                                personalized learning recommendations.
                             </p>
 
                         </div>
 
                     </div>
 
-
-                    <div>
-
-                        <p class="stat-label">
-                            Course level
-                        </p>
-
-                        <strong>
-                            {{ recommendation.course.level }}
-                        </strong>
-
-                        <p class="stat-description">
-                            {{ recommendation.course.duration_hours }}
-                            hours
-                        </p>
-
-                    </div>
-
-
-                    <div class="gap-value">
-
-                        <span class="stat-label">
-                            Source
-                        </span>
-
-                        <p>
-                            {{ recommendation.course.source }}
-                        </p>
-
-                    </div>
-
-
-                    <div class="priority {{ recommendation.priority|lower }}">
-
-                        {{ recommendation.priority }}
-
-                    </div>
-
-
-                    <div>
-
-                        <p>
-                            {{ recommendation.reason }}
-                        </p>
-
-                    </div>
-
-                </div>
-
-                {% empty %}
-
-                <div class="stat-card">
-
-                    <h2>
-                        No recommendations yet
-                    </h2>
-
-                    <p>
-                        Complete an assessment to receive
-                        personalized learning recommendations.
-                    </p>
-
-                </div>
-
-                {% endfor %}
-
-            </div>
-
-
-            <!-- iGOT section -->
-
-            <div class="recommendation">
-
-                <div class="recommendation-icon">
-                    ✦
-                </div>
-
-                <div>
-
-                    <span class="eyebrow">
-                        iGOT KARMAYOGI
-                    </span>
-
-                    <h2>
-                        Government learning ecosystem
-                    </h2>
-
-                    <p>
-                        KaushalSetu can connect competency gaps
-                        with relevant training resources from
-                        the iGOT Karmayogi ecosystem.
-                    </p>
-
-                </div>
+                {% endif %}
 
             </div>
 

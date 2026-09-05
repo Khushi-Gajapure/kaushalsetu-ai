@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import (
     Employee,
     LearningRecommendation,
     LearningMaterial,
     Quiz,
+    Assessment,
 )
 from .services.skill_gap import calculate_skill_gaps
 
@@ -16,6 +17,35 @@ def dashboard(request):
     )
 
     gaps = calculate_skill_gaps(employee)
+
+    assessments = Assessment.objects.filter(
+        employee=employee
+    ).select_related(
+        "quiz"
+    ).order_by(
+        "-completed_at"
+    )
+
+    if assessments:
+        total_score = sum(
+            assessment.score
+            for assessment in assessments
+            if assessment.quiz
+        )
+
+        total_possible = sum(
+            assessment.quiz.questions.count()
+            for assessment in assessments
+            if assessment.quiz
+        )
+
+        learning_progress = (
+            round((total_score / total_possible) * 100)
+            if total_possible
+            else 0
+        )
+    else:
+        learning_progress = 0
 
     high_count = sum(
         1 for gap in gaps
@@ -41,6 +71,8 @@ def dashboard(request):
             "high_count": high_count,
             "medium_count": medium_count,
             "low_count": low_count,
+            "assessments": assessments,
+            "learning_progress": learning_progress,
         },
     )
 def recommendations(request):
@@ -50,12 +82,25 @@ def recommendations(request):
     )
 
     recommendations = LearningRecommendation.objects.filter(
-        employee=employee,
-        completed=False
+        employee=employee
     ).select_related(
         "course",
         "competency"
     )
+
+    if request.method == "POST":
+        recommendation_id = request.POST.get("recommendation_id")
+
+        recommendation = get_object_or_404(
+            LearningRecommendation,
+            id=recommendation_id,
+            employee=employee
+        )
+
+        recommendation.completed = True
+        recommendation.save()
+
+        return redirect("recommendations")
 
     return render(
         request,
@@ -115,6 +160,18 @@ def take_quiz(request, quiz_id):
 
             if selected_answer == question.correct_answer:
                 score += 1
+
+        employee = get_object_or_404(
+            Employee,
+            user__username="rahul"
+        )
+
+        Assessment.objects.create(
+    employee=employee,
+    quiz=quiz,
+    score=score,
+)
+        
 
         return render(
             request,

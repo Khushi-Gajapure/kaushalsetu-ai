@@ -38,11 +38,19 @@ class EmployeeCompetency(models.Model):
 
 class Assessment(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+
+    quiz = models.ForeignKey(
+        "Quiz",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+
     score = models.FloatField(default=0)
     completed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.employee} - {self.score}"
+        return f"{self.employee} - {self.quiz} - {self.score}"
 
 
 class AssessmentQuestion(models.Model):
@@ -51,12 +59,14 @@ class AssessmentQuestion(models.Model):
         on_delete=models.CASCADE,
         related_name="questions"
     )
+
     question = models.TextField()
     option_a = models.CharField(max_length=300)
     option_b = models.CharField(max_length=300)
     option_c = models.CharField(max_length=300)
     option_d = models.CharField(max_length=300)
     correct_answer = models.CharField(max_length=1)
+
     competency = models.ForeignKey(
         Competency,
         on_delete=models.SET_NULL,
@@ -72,7 +82,10 @@ class Course(models.Model):
     skills = models.CharField(max_length=500, blank=True)
     level = models.CharField(max_length=50, default="Beginner")
     duration_hours = models.FloatField(default=0)
-    source = models.CharField(max_length=100, default="iGOT Karmayogi")
+    source = models.CharField(
+        max_length=100,
+        default="iGOT Karmayogi"
+    )
 
     def __str__(self):
         return self.title
@@ -81,13 +94,19 @@ class Course(models.Model):
 class LearningRecommendation(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
     competency = models.ForeignKey(
         Competency,
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
-    priority = models.CharField(max_length=20, default="Medium")
+
+    priority = models.CharField(
+        max_length=20,
+        default="Medium"
+    )
+
     reason = models.TextField(blank=True)
     completed = models.BooleanField(default=False)
 
@@ -97,8 +116,12 @@ class LearningRecommendation(models.Model):
 
 class LearningMaterial(models.Model):
     title = models.CharField(max_length=200)
-    file = models.FileField(upload_to="learning_materials/")
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(
+        upload_to="learning_materials/"
+    )
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True
+    )
 
     def __str__(self):
         return self.title
@@ -110,8 +133,15 @@ class Quiz(models.Model):
         on_delete=models.CASCADE,
         related_name="quizzes"
     )
+
     title = models.CharField(max_length=200)
-    created_at = models.DateTimeField(auto_now_add=True)
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return self.title
 
 
 class QuizQuestion(models.Model):
@@ -120,14 +150,22 @@ class QuizQuestion(models.Model):
         on_delete=models.CASCADE,
         related_name="questions"
     )
+
     question = models.TextField()
     option_a = models.CharField(max_length=300)
     option_b = models.CharField(max_length=300)
     option_c = models.CharField(max_length=300)
     option_d = models.CharField(max_length=300)
+
     correct_answer = models.CharField(max_length=1)
+
     explanation = models.TextField(blank=True)
-    difficulty = models.CharField(max_length=30, default="Medium")
+
+    difficulty = models.CharField(
+        max_length=30,
+        default="Medium"
+    )
+
     competency = models.ForeignKey(
         Competency,
         on_delete=models.SET_NULL,

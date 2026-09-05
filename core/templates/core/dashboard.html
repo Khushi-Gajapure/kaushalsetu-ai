@@ -20,13 +20,18 @@
         <aside class="sidebar">
 
             <div class="logo">
-                <div class="logo-icon">K</div>
+
+                <div class="logo-icon">
+                    K
+                </div>
 
                 <div>
                     <h2>KaushalSetu</h2>
                     <span>AI Learning Platform</span>
                 </div>
+
             </div>
+
 
             <nav>
 
@@ -41,9 +46,9 @@
                 </a>
 
                 <a href="/recommendations/" class="nav-item">
-    <span>▤</span>
-    Learning
-</a>
+                    <span>▤</span>
+                    Learning
+                </a>
 
                 <a href="#" class="nav-item">
                     <span>✓</span>
@@ -62,9 +67,15 @@
 
             </nav>
 
+
             <div class="sidebar-footer">
+
                 <p>SIH26101</p>
-                <span>Official Statistics</span>
+
+                <span>
+                    Official Statistics
+                </span>
+
             </div>
 
         </aside>
@@ -73,26 +84,36 @@
         <!-- Main Content -->
         <main class="main">
 
-            <!-- Top bar -->
+
+            <!-- Top Bar -->
             <header class="topbar">
 
                 <div>
-                    <p class="breadcrumb">Dashboard</p>
+                    <p class="breadcrumb">
+                        Dashboard
+                    </p>
                 </div>
 
+
                 <div class="profile">
+
                     <div class="avatar">
                         {{ employee.user.first_name|first }}
                     </div>
 
                     <div>
+
                         <strong>
                             {{ employee.user.first_name }}
                             {{ employee.user.last_name }}
                         </strong>
 
-                        <small>{{ employee.role }}</small>
+                        <small>
+                            {{ employee.role }}
+                        </small>
+
                     </div>
+
                 </div>
 
             </header>
@@ -101,10 +122,15 @@
             <!-- Dashboard -->
             <section class="dashboard">
 
+
+                <!-- Welcome -->
                 <div class="welcome">
 
                     <div>
-                        <p class="eyebrow">PERSONALIZED LEARNING</p>
+
+                        <p class="eyebrow">
+                            PERSONALIZED LEARNING
+                        </p>
 
                         <h1>
                             Welcome back,
@@ -115,6 +141,7 @@
                             Here's your current competency profile
                             and recommended learning priorities.
                         </p>
+
                     </div>
 
                 </div>
@@ -123,42 +150,58 @@
                 <!-- Statistics Cards -->
                 <div class="stats">
 
+
+                    <!-- Total Competencies -->
                     <div class="stat-card">
+
                         <span class="stat-label">
                             Total Competencies
                         </span>
 
-                        <strong>{{ gaps|length }}</strong>
+                        <strong>
+                            {{ gaps|length }}
+                        </strong>
 
                         <span class="stat-description">
                             Skills assessed
                         </span>
+
                     </div>
 
 
+                    <!-- High Priority -->
                     <div class="stat-card high-card">
+
                         <span class="stat-label">
                             High Priority Gaps
                         </span>
 
-                        <strong>{{ high_count }}</strong>
+                        <strong>
+                            {{ high_count }}
+                        </strong>
 
                         <span class="stat-description">
                             Require immediate focus
                         </span>
+
                     </div>
 
 
+                    <!-- Learning Progress -->
                     <div class="stat-card">
+
                         <span class="stat-label">
                             Learning Status
                         </span>
 
-                        <strong>0%</strong>
+                        <strong>
+                            {{ learning_progress }}%
+                        </strong>
 
                         <span class="stat-description">
-                            Start your learning journey
+                            Based on quiz performance
                         </span>
+
                     </div>
 
                 </div>
@@ -168,22 +211,28 @@
                 <div class="section-header">
 
                     <div>
-                        <h2>Competency Gaps</h2>
+
+                        <h2>
+                            Competency Gaps
+                        </h2>
 
                         <p>
                             Skills requiring development based on
                             your role requirements.
                         </p>
+
                     </div>
 
                 </div>
 
 
+                <!-- Competency List -->
                 <div class="competency-list">
 
                     {% for gap in gaps %}
 
                     <div class="competency-card">
+
 
                         <div class="competency-info">
 
@@ -192,22 +241,30 @@
                             </div>
 
                             <div>
-                                <h3>{{ gap.competency }}</h3>
+
+                                <h3>
+                                    {{ gap.competency }}
+                                </h3>
 
                                 <p>
+
                                     Current level
+
                                     <strong>
                                         {{ gap.current_level }}
                                     </strong>
 
                                     /
                                     {{ gap.required_level }}
+
                                 </p>
+
                             </div>
 
                         </div>
 
 
+                        <!-- Progress -->
                         <div class="progress-area">
 
                             <div class="progress-bar">
@@ -227,13 +284,20 @@
                         </div>
 
 
+                        <!-- Gap -->
                         <div class="gap-value">
-                            Gap: {{ gap.gap }}
+
+                            Gap:
+                            {{ gap.gap }}
+
                         </div>
 
 
+                        <!-- Priority -->
                         <div class="priority {{ gap.priority|lower }}">
+
                             {{ gap.priority }}
+
                         </div>
 
                     </div>
@@ -246,9 +310,11 @@
                 <!-- Recommendation Preview -->
                 <div class="recommendation">
 
+
                     <div class="recommendation-icon">
                         ✦
                     </div>
+
 
                     <div>
 
@@ -269,6 +335,96 @@
 
                 </div>
 
+
+                <!-- Quiz Progress -->
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Quiz Progress
+                        </h2>
+
+                        <p>
+                            Your recent AI-powered assessment results.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quiz-history">
+
+                    {% if assessments %}
+
+                        {% for assessment in assessments %}
+
+                        <div class="quiz-card">
+
+
+                            <!-- Quiz Information -->
+                            <div class="quiz-info">
+
+                                <div class="quiz-icon">
+                                    ✓
+                                </div>
+
+
+                                <div>
+
+                                    <h3>
+                                        {{ assessment.quiz.title }}
+                                    </h3>
+
+                                    <p>
+
+                                        Completed
+
+                                        {{ assessment.completed_at|date:"d M Y, H:i" }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Score -->
+                            <div class="quiz-score">
+
+                                <strong>
+                                    {{ assessment.score }}
+                                </strong>
+
+                                <span>
+                                    /
+                                    {{ assessment.quiz.questions.count }}
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+                        <div class="quiz-card">
+
+                            <p>
+                                No quizzes completed yet.
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
             </section>
 
         </main>
@@ -276,4 +432,5 @@
     </div>
 
 </body>
+
 </html>
