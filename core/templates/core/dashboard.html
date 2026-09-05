@@ -141,13 +141,7 @@
                             High Priority Gaps
                         </span>
 
-                        <strong>
-                            {% for gap in gaps %}
-                                {% if gap.priority == "High" %}
-                                    {% if forloop.first %}1{% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        </strong>
+                        <strong>{{ high_count }}</strong>
 
                         <span class="stat-description">
                             Require immediate focus
