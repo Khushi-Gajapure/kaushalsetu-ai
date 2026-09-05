@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KaushalSetu AI</title>
+</head>
+
+<body>
+
+    <h1>KaushalSetu AI</h1>
+
+    <h2>Welcome, {{ employee.user.first_name }} {{ employee.user.last_name }}</h2>
+
+    <p>
+        <strong>Role:</strong> {{ employee.role }}
+    </p>
+
+    <p>
+        <strong>Department:</strong> {{ employee.department }}
+    </p>
+
+    <hr>
+
+    <h2>Your Competency Gaps</h2>
+
+    {% for gap in gaps %}
+
+        <div>
+            <h3>{{ gap.competency }}</h3>
+
+            <p>
+                Current Level:
+                {{ gap.current_level }}
+            </p>
+
+            <p>
+                Required Level:
+                {{ gap.required_level }}
+            </p>
+
+            <p>
+                Gap:
+                {{ gap.gap }}
+            </p>
+
+            <p>
+                Priority:
+                {{ gap.priority }}
+            </p>
+        </div>
+
+        <hr>
+
+    {% endfor %}
+
+</body>
+</html>
