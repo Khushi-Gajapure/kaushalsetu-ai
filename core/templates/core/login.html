@@ -1,0 +1,112 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - KaushalSetu AI</title>
+
+    <link rel="stylesheet"
+          href="{% static 'core/style.css' %}">
+
+</head>
+
+<body>
+
+    <div class="app">
+
+        <main class="main">
+
+            <section class="dashboard">
+
+                <div class="welcome">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            KAUSHALSETU AI
+                        </p>
+
+                        <h1>
+                            Welcome back
+                        </h1>
+
+                        <p>
+                            Sign in to continue your
+                            personalized learning journey.
+                        </p>
+
+                        <br>
+
+                        {% if form.non_field_errors %}
+                        <div style="
+                            background:#fef2f2;
+                            border:1px solid #fecaca;
+                            color:#b91c1c;
+                            padding:12px 16px;
+                            border-radius:8px;
+                            margin-bottom:16px;
+                        ">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <form method="post">
+
+                            {% csrf_token %}
+
+                            <div>
+
+                                <label>
+                                    Username
+                                </label>
+
+                                <br>
+
+                                {{ form.username }}
+
+                            </div>
+
+                            <br>
+
+                            <div>
+
+                                <label>
+                                    Password
+                                </label>
+
+                                <br>
+
+                                {{ form.password }}
+
+                            </div>
+
+                            <br>
+
+                            <button type="submit">
+                                Login
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
